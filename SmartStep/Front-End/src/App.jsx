@@ -171,18 +171,40 @@ export default function App() {
     ? "min-h-screen bg-[radial-gradient(circle_at_top,_#111827,_#1e293b_35%,_#0f172a_100%)] text-slate-100"
     : "min-h-screen bg-[radial-gradient(circle_at_top,_#eef9db,_#d8f3c7_35%,_#cfe6c0_100%)] text-slate-800";
 
+  const authPanelClass = isDark
+    ? "rounded-[32px] border border-white/10 bg-white/5 shadow-[0_25px_70px_rgba(174,107,172,0.22)]"
+    : "rounded-[32px] border border-[#d9d9df] bg-white/75 shadow-[0_25px_70px_rgba(123,90,150,0.18)]";
+  const authHeroTitleClass = isDark ? "text-white" : "text-slate-900";
+  const authHeroTextClass = isDark ? "text-slate-300" : "text-slate-700";
+  const authButtonClass = isDark
+    ? "rounded-full border border-[#f1d7f2] bg-white/5 px-6 py-3 text-sm font-bold text-[#f8ecfb] shadow-[0_18px_32px_rgba(184,122,178,0.15)] transition hover:bg-white/10"
+    : "rounded-full border border-[#d7c3dc] bg-white/80 px-6 py-3 text-sm font-bold text-[#492d54] shadow-[0_18px_32px_rgba(184,122,178,0.12)] transition hover:bg-white";
+  const primaryMetricClass = isDark ? "text-[#e9f7dd]" : "text-[#183d2a]";
+  const secondaryMetricClass = isDark ? "text-slate-300" : "text-slate-600";
+  const softGreenTextClass = isDark ? "text-[#d7f9b5]" : "text-[#173d2d]";
+  const labelGreenTextClass = isDark ? "text-[#a8c6a7]" : "text-[#1f5d4d]";
+  const sectionLabelTextClass = isDark ? "text-[#a5c9a1]" : "text-[#1c5a47]";
+
   if (!isAuthenticated) {
     return (
       <div className={`${shellClass} px-4 py-10`}>
         <div className="mx-auto flex max-w-6xl flex-col gap-6 lg:flex-row">
-          <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-white/10 bg-white/5 p-8 shadow-[0_25px_70px_rgba(174,107,172,0.22)] backdrop-blur-xl">
-            <p className="text-xs font-bold uppercase tracking-[0.38em] text-[#d7f9b5]">
+          <div
+            className={`${authPanelClass} flex flex-1 flex-col justify-center p-8 backdrop-blur-xl`}
+          >
+            <p
+              className={`text-xs font-bold uppercase tracking-[0.38em] ${softGreenTextClass}`}
+            >
               SmartStep AI
             </p>
-            <h1 className="mt-4 text-4xl font-black leading-tight text-white md:text-6xl">
+            <h1
+              className={`mt-4 text-4xl font-black leading-tight md:text-6xl ${authHeroTitleClass}`}
+            >
               Learn faster. Quiz smarter.
             </h1>
-            <p className="mt-4 max-w-xl text-base text-slate-300 md:text-lg">
+            <p
+              className={`mt-4 max-w-xl text-base md:text-lg ${authHeroTextClass}`}
+            >
               Build topic-based quizzes, track your progress, and stay motivated
               with a clean learning system designed for focused growth.
             </p>
@@ -191,9 +213,7 @@ export default function App() {
               <button className="animated-gradient rounded-full px-6 py-3 text-sm font-bold text-[#183926] shadow-[0_18px_32px_rgba(153,220,157,0.42)]">
                 AI Practice Mode
               </button>
-              <button className="rounded-full border border-[#f1d7f2] bg-white/5 px-6 py-3 text-sm font-bold text-[#f8ecfb] shadow-[0_18px_32px_rgba(184,122,178,0.15)] transition hover:bg-white/10">
-                View Leaderboard
-              </button>
+              <button className={authButtonClass}>View Leaderboard</button>
             </div>
           </div>
 
@@ -278,7 +298,9 @@ export default function App() {
       <div className="mx-auto max-w-7xl">
         <header className="mb-6 flex flex-col gap-4 rounded-[28px] border border-[#d7c3dc]/40 bg-white/10 p-4 shadow-[0_24px_50px_rgba(145,105,161,0.18)] backdrop-blur-xl md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.32em] text-[#b8d9aa]">
+            <p
+              className={`text-xs font-bold uppercase tracking-[0.32em] ${softGreenTextClass}`}
+            >
               SmartStep AI
             </p>
             <h1 className="mt-2 text-3xl font-black text-inherit md:text-4xl">
@@ -313,7 +335,9 @@ export default function App() {
                 className="grid gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end"
               >
                 <div>
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-[#a8c6a7]">
+                  <label
+                    className={`mb-2 block text-xs font-bold uppercase tracking-[0.22em] ${labelGreenTextClass}`}
+                  >
                     Your Name
                   </label>
                   <input
@@ -327,7 +351,9 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-[#a8c6a7]">
+                  <label
+                    className={`mb-2 block text-xs font-bold uppercase tracking-[0.22em] ${labelGreenTextClass}`}
+                  >
                     Quiz Topic / Role
                   </label>
                   <input
@@ -339,7 +365,9 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-[#a8c6a7]">
+                  <label
+                    className={`mb-2 block text-xs font-bold uppercase tracking-[0.22em] ${labelGreenTextClass}`}
+                  >
                     Questions
                   </label>
                   <input
@@ -367,7 +395,9 @@ export default function App() {
             </section>
 
             {error && (
-              <div className="mt-5 rounded-2xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-200">
+              <div
+                className={`mt-5 rounded-2xl border px-4 py-3 text-sm font-medium ${isDark ? "border-red-400/40 bg-red-500/10 text-red-200" : "border-red-300 bg-red-100 text-red-700"}`}
+              >
                 {error}
               </div>
             )}
@@ -375,7 +405,9 @@ export default function App() {
             <section className="mt-6 space-y-5">
               {questions.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a5c9a1]">
+                  <p
+                    className={`text-xs font-bold uppercase tracking-[0.2em] ${sectionLabelTextClass}`}
+                  >
                     Active Topic
                   </p>
                   <h2 className="text-2xl font-black text-inherit">{topic}</h2>
@@ -452,49 +484,55 @@ export default function App() {
 
           <aside className="space-y-6">
             <div className="rounded-[28px] border border-[#d9c3df]/25 bg-white/10 p-5 shadow-[0_18px_40px_rgba(125,92,148,0.14)] backdrop-blur-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#b4d8a6]">
+              <p
+                className={`text-xs font-bold uppercase tracking-[0.22em] ${sectionLabelTextClass}`}
+              >
                 User
               </p>
               <h3 className="mt-2 text-xl font-black text-inherit">
                 {user.name}
               </h3>
-              <p className="text-sm text-slate-300">{user.email}</p>
+              <p className={secondaryMetricClass}>{user.email}</p>
             </div>
 
             <div className="rounded-[28px] border border-[#d9c3df]/25 bg-white/10 p-5 shadow-[0_18px_40px_rgba(125,92,148,0.14)] backdrop-blur-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#b4d8a6]">
+              <p
+                className={`text-xs font-bold uppercase tracking-[0.22em] ${sectionLabelTextClass}`}
+              >
                 Timer
               </p>
               <div className="mt-4">
-                <p className="text-3xl font-black text-[#e9f7dd]">
+                <p className={`text-3xl font-black ${primaryMetricClass}`}>
                   {Math.floor(quizTimer / 60)}:
                   {String(quizTimer % 60).padStart(2, "0")}
                 </p>
-                <p className="mt-2 text-sm text-slate-300">
+                <p className={`mt-2 text-sm ${secondaryMetricClass}`}>
                   Total time remaining for this quiz.
                 </p>
               </div>
             </div>
 
             <div className="rounded-[28px] border border-[#d9c3df]/25 bg-white/10 p-5 shadow-[0_18px_40px_rgba(125,92,148,0.14)] backdrop-blur-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#b4d8a6]">
+              <p
+                className={`text-xs font-bold uppercase tracking-[0.22em] ${sectionLabelTextClass}`}
+              >
                 Score Summary
               </p>
               {submitted ? (
                 <div className="mt-4">
-                  <p className="text-4xl font-black text-[#e9f7dd]">
+                  <p className={`text-4xl font-black ${primaryMetricClass}`}>
                     {score}/{questions.length}
                   </p>
-                  <p className="mt-2 text-sm text-slate-300">
+                  <p className={`mt-2 text-sm ${secondaryMetricClass}`}>
                     Great work on {topic}.
                   </p>
                 </div>
               ) : (
                 <div className="mt-4">
-                  <p className="text-4xl font-black text-[#e9f7dd]">
+                  <p className={`text-4xl font-black ${primaryMetricClass}`}>
                     0/{questions.length || 0}
                   </p>
-                  <p className="mt-2 text-sm text-slate-300">
+                  <p className={`mt-2 text-sm ${secondaryMetricClass}`}>
                     Answer all questions to see your result.
                   </p>
                 </div>
@@ -502,7 +540,9 @@ export default function App() {
             </div>
 
             <div className="rounded-[28px] border border-[#d9c3df]/25 bg-white/10 p-5 shadow-[0_18px_40px_rgba(125,92,148,0.14)] backdrop-blur-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#b4d8a6]">
+              <p
+                className={`text-xs font-bold uppercase tracking-[0.22em] ${sectionLabelTextClass}`}
+              >
                 Leaderboard
               </p>
               <div className="mt-4 space-y-3">
@@ -562,7 +602,9 @@ export default function App() {
             </div>
 
             <div className="rounded-[28px] border border-[#d9c3df]/25 bg-white/10 p-5 shadow-[0_18px_40px_rgba(125,92,148,0.14)] backdrop-blur-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#b4d8a6]">
+              <p
+                className={`text-xs font-bold uppercase tracking-[0.22em] ${sectionLabelTextClass}`}
+              >
                 Score History
               </p>
               <div className="mt-4 space-y-3">

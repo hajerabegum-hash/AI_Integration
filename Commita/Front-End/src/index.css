@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: #1f1831;
+  background: #faf5ff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(253, 230, 138, 0.35),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(216, 180, 254, 0.38),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #fffaf5 0%, #f5ecff 35%, #eef9ff 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+@layer utilities {
+  .animal-shadow {
+    box-shadow: 0 20px 60px rgba(132, 103, 181, 0.18);
+  }
+
+  .soft-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .soft-scroll::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.28);
+    border-radius: 9999px;
+  }
+}
