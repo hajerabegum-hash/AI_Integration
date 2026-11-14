@@ -67,7 +67,7 @@ It is given only as an example of appropriate comments.
 Please summarise the following diff file:\n\n${diff}`;
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-3.6-flash",
     contents: [
       {
         role: "user",

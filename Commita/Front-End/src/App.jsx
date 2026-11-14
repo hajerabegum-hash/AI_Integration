@@ -15,6 +15,16 @@ const defaultAuthForm = {
 };
 const defaultRepoUrl = "https://github.com/hajerabegum-hash/FSD";
 
+function safeReadStoredJson(key, fallback = null) {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch (error) {
+    localStorage.removeItem(key);
+    return fallback;
+  }
+}
+
 async function requestJson(url, options = {}) {
   const response = await fetch(url, {
     ...options,
@@ -27,7 +37,9 @@ async function requestJson(url, options = {}) {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.msg || "Request failed");
+    const error = new Error(data.msg || "Request failed");
+    error.status = response.status;
+    throw error;
   }
 
   return data;
@@ -219,7 +231,7 @@ function DashboardPage({
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/login", { replace: true });
       return;
     }
 
@@ -233,12 +245,22 @@ function DashboardPage({
         });
         setHistory(data.history || []);
       } catch (error) {
+        if (error.status === 401) {
+          setToken("");
+          setUser(null);
+          setHistory([]);
+          setRecentSummary([]);
+          setMessage("Your session expired. Please sign in again.");
+          navigate("/login", { replace: true });
+          return;
+        }
+
         console.error("History load failed:", error);
       }
     };
 
     loadHistory();
-  }, [navigate, token]);
+  }, [navigate, token, setToken, setUser, setMessage]);
 
   const handleGenerateSummary = async () => {
     const cleanRepoUrl = repoUrl.trim();
@@ -272,6 +294,16 @@ function DashboardPage({
       ]);
       setMessage(data.warning || "Summary generated successfully.");
     } catch (error) {
+      if (error.status === 401) {
+        setToken("");
+        setUser(null);
+        setRecentSummary([]);
+        setHistory([]);
+        setMessage("Your session expired. Please sign in again.");
+        navigate("/login", { replace: true });
+        return;
+      }
+
       setMessage(error.message);
     } finally {
       setLoading(false);
@@ -284,7 +316,7 @@ function DashboardPage({
     setRecentSummary([]);
     setHistory([]);
     setMessage("Signed out.");
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -455,11 +487,9 @@ function App() {
   const [authMode, setAuthMode] = useState("login");
   const [authForm, setAuthForm] = useState(defaultAuthForm);
   const [token, setToken] = useState(
-    localStorage.getItem("commita-token") || "",
+    () => localStorage.getItem("commita-token") || "",
   );
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("commita-user") || "null"),
-  );
+  const [user, setUser] = useState(() => safeReadStoredJson("commita-user"));
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 

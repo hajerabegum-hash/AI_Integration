@@ -22,10 +22,13 @@ function normalizeGitHubUrl(rawUrl = "") {
   return `https://${withoutTrailingSlash}`;
 }
 
-function buildFallbackSummary(githubURL) {
+function buildFallbackSummary(
+  githubURL,
+  reason = "Please verify the GitHub repo URL and Gemini API key.",
+) {
   return [
     {
-      summary: `Unable to generate AI summary for ${githubURL}. Please verify the GitHub repo URL and Gemini API key.`,
+      summary: `Unable to generate AI summary for ${githubURL}. ${reason}`,
       commitHash: null,
       commitMessage: "Summary generation failed",
       commitAuthorName: null,
@@ -51,8 +54,13 @@ router.post("/generate", async (req, res) => {
     try {
       finalSummaryArray = await generateSummaryPipeline(normalizedGithubURL);
     } catch (error) {
+      const reason =
+        error instanceof Error && error.message
+          ? error.message
+          : "Please verify the GitHub repo URL and Gemini API key.";
+
       console.error("AI summary generation failed:", error);
-      finalSummaryArray = buildFallbackSummary(normalizedGithubURL);
+      finalSummaryArray = buildFallbackSummary(normalizedGithubURL, reason);
     }
 
     const savedHistory = await SummaryHistory.create({
